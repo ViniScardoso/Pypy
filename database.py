@@ -1,4 +1,5 @@
 import mysql.connector
+from mysql.connector import errorcode
 
 cnx = mysql.connector.connect(user="pypyUser",
                               password="urubu100", 
@@ -16,6 +17,7 @@ def insert(query):
         if cnx.is_connected():
             cursor.close()
             cnx.close()
+            return cursor.rowcount
 
 def select(query):
     try:
@@ -31,5 +33,3 @@ def select(query):
             cursor.close()
             cnx.close()
             return dados
-
-print(select("SELECT * FROM usuario;"))

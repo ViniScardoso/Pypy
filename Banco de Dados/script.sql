@@ -27,4 +27,3 @@ INSERT INTO usuario VALUES (NULL ,'Leo', 'leovasc', 54.0, 421.0, 0.0, '2003-11-0
 SELECT * FROM usuario;
 
 drop table usuario;
-
