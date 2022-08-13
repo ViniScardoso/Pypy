@@ -26,12 +26,14 @@ def userMenu(userId, isRepeat = False):
     while opcaoUser == '1':
         resultado = imc(userId)
         print(resultado)
-        input("Pressione qualquer tecla para seguir")
-        res = input("[1] - Nova operação\n[2] - Voltar para o menu \n")
-        if res == "2":
+        input("\nPressione qualquer tecla para seguir...")
+        os.system('cls')
+        res = input("\033[1mCálculo de IMC - Tarefa Finalizada\033[0m\n\n[1] - Voltar para a home\n[2] - Nova operação\n\n\033[1mUsuário:\033[0m ")
+        
+        if res == "1":
             opcaoUser = "0"
             userMenu(userId)
-        elif res == "1":
+        elif res == "2":
             userMenu(userId, True)
         else:
             print("Opção inválida")
@@ -44,17 +46,15 @@ def userMenu(userId, isRepeat = False):
         for i in dados:
             print(dados[0], dados[1])
 
-        input("Pressione qualquer tecla para voltar ao menu")
+        input("Pressione qualquer tecla para voltar ao menu...")
         opcaoUser == "0"
         userMenu(userId)
-
-
 
 def cadastrar(nome, user, dataNasc, senha):
     retorno = database.insert(f"INSERT INTO usuario VALUES (NULL, '{nome}', '{user}', '{dataNasc}', '{senha}')")
     if retorno == 1:
         os.system('cls')
-        print('Cadastro realizado com sucesso!')
+        print('\033[1mCálculo de IMC - Cadastro\033[0m\n\nCadastro realizado com sucesso!')
         time.sleep(2)
         main(False, False)
     else:
@@ -66,11 +66,11 @@ def entrar(user, senha):
     os.system('cls')
     dados = database.select(f"SELECT idUsuario, username, nome FROM usuario where username = '{user}' and senha = '{senha}'")
     if type(dados) == type(None):
-        print("Usuário ou senha inválidos")
+        print("\033[1mCálculo de IMC - Falha no Login\033[0m\n\nUsuário ou senha inválidos")
         time.sleep(4)
         main(False, False, True)
     else:
-        print("Login feito com sucesso, Redirecionando para o menu inicial ...")
+        print("\033[1mCálculo de IMC - Sucesso no Login\033[0m\n\nLogin feito com sucesso, Redirecionando para o menu inicial ...")
         userId = dados[0]
         time.sleep(2)
         os.system('cls')
@@ -98,9 +98,9 @@ def main(isRepeat = False, isRepeatCad = False, isRepeatLog = False):
             entrar(username, senha)
         elif userInput == "2":
             os.system('cls')
-            nome = input("\033[1mCálculo de IMC\033[0m\n\nNome completo: ")
+            nome = input("\033[1mCálculo de IMC - Cadastro\033[0m\n\nNome completo: ")
             user = input("Username: ")
-            dataNasc = input("Data de nascimento - (AAAA-MM-DD): ")
+            dataNasc = input("Data de nascimento(AAAA-MM-DD): ")
             senha = getpass.getpass("Senha:")
             confSenha = getpass.getpass("Confirme a senha: ")
             if senha == confSenha:
