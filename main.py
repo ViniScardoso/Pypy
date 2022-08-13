@@ -4,18 +4,11 @@ import time
 from functions import historico, imc
 import getpass
 import database
-# from login import cadastrar
 import platform
 import locale
 locale.setlocale(locale.LC_ALL, 'pt_pt.UTF-8')
 
-# osClient = platform.system()
-# clearCode = ''
-
-# if(osClient == 'Linux'):
-#     clearCode = 'clear'
-# else:
-#     clearCode = 'cls'
+# clearCode = 'clear' if platform.system() == 'Linux' else 'cls'
 
 def userMenu(userId, isRepeat = False):
     os.system('cls')
@@ -23,7 +16,7 @@ def userMenu(userId, isRepeat = False):
     if isRepeat:
        opcaoUser = '1'
     else:
-        opcaoUser = input("\033[1mCálculo de IMC - Home\033[0m\n\n[1] - Calcular IMC\n[2] - Histórico\n[3] - Análise de Dados\n\n\033[1mUsuário:\033[0m ")
+        opcaoUser = input("\033[1mCálculo de IMC - Home\033[0m\n\n[1] - Calcular IMC\n[2] - Histórico\n[3] - Análise de Dados\n[4] - Voltar\n\n\033[1mUsuário:\033[0m ")
     
     while opcaoUser == '1':
         resultado = imc(userId)
@@ -52,12 +45,23 @@ def userMenu(userId, isRepeat = False):
             print(f"\033[1mHorário: \033[0m{i[4].strftime('%H')}:{i[4].strftime('%M')}")
             print(f"\033[1mPeso: \033[0m{i[1]}")
             print(f"\033[1mAltura: \033[0m{i[1]}")
-            print(f"\033[1mIMC: \033[0m{i[1]}\n\n")
-
+            print(f"\033[1mIMC: \033[0m{i[1]}\n")
 
         input("Pressione qualquer tecla para voltar ao menu...")
         opcaoUser == "0"
         userMenu(userId)
+
+    while opcaoUser == "3":
+        os.system('cls')
+        res = input("\033[1mCálculo de IMC - Análise de Dados\033[0m\n\n[1] - IMC por faixa etária\n[2] - IMC por faixa corporal\n[3] - IMC por estatura física\n[4] - Personalizado\n\n\033[1mUsuário: \033[0m")
+        dados = historico(userId)
+
+        input("Pressione qualquer tecla para voltar ao menu...")
+        opcaoUser == "0"
+        userMenu(userId)
+
+    while opcaoUser == "4":
+        main()
 
 def cadastrar(nome, user, dataNasc, senha):
     retorno = database.insert(f"INSERT INTO usuario VALUES (NULL, '{nome}', '{user}', '{dataNasc}', '{senha}')")
