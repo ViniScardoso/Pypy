@@ -6,6 +6,7 @@ import getpass
 import database
 import platform
 import locale
+from analytics import getFaixaEtaria
 locale.setlocale(locale.LC_ALL, 'pt_pt.UTF-8')
 
 # clearCode = 'clear' if platform.system() == 'Linux' else 'cls'
@@ -23,13 +24,13 @@ def userMenu(userId, isRepeat = False):
         print(resultado)
         input("\nPressione qualquer tecla para seguir...")
         os.system('cls')
-        res = input("\033[1mCálculo de IMC - Tarefa Finalizada\033[0m\n\n[1] - Voltar para a home\n[2] - Nova operação\n\n\033[1mUsuário:\033[0m ")
+        res = input("\033[1mCálculo de IMC - Tarefa Finalizada\033[0m\n\n[1] - Calcular IMC novamente\n[2] - Voltar\n\n\033[1mUsuário:\033[0m ")
         
         if res == "1":
+            userMenu(userId, True)
+        elif res == "2":
             opcaoUser = "0"
             userMenu(userId)
-        elif res == "2":
-            userMenu(userId, True)
         else:
             print("Opção inválida")
             time.sleep(1)
@@ -39,13 +40,13 @@ def userMenu(userId, isRepeat = False):
         os.system('cls')
         print("\033[1mCálculo de IMC - Histórico\033[0m\n")
         dados = historico(userId)
-
+        
         for i in dados:
             print(f"\033[1m{i[4].strftime('%A').capitalize()}, {i[4].strftime('%d')} de {i[4].strftime('%B')} de {i[4].strftime('%Y')}\033[0m")
             print(f"\033[1mHorário: \033[0m{i[4].strftime('%H')}:{i[4].strftime('%M')}")
-            print(f"\033[1mPeso: \033[0m{i[1]}")
-            print(f"\033[1mAltura: \033[0m{i[1]}")
-            print(f"\033[1mIMC: \033[0m{i[1]}\n")
+            print(f"\033[1mPeso: \033[0m{i[1]}kg")
+            print(f"\033[1mAltura: \033[0m{i[2]}m")
+            print(f"\033[1mIMC: \033[0m{i[3]}\n")
 
         input("Pressione qualquer tecla para voltar ao menu...")
         opcaoUser == "0"
@@ -53,8 +54,12 @@ def userMenu(userId, isRepeat = False):
 
     while opcaoUser == "3":
         os.system('cls')
-        res = input("\033[1mCálculo de IMC - Análise de Dados\033[0m\n\n[1] - IMC por faixa etária\n[2] - IMC por faixa corporal\n[3] - IMC por estatura física\n[4] - Personalizado\n\n\033[1mUsuário: \033[0m")
-        dados = historico(userId)
+        res = input("\033[1mCálculo de IMC - Análise de Dados\033[0m\n\n[1] - IMC por faixa etária\n[2] - IMC por faixa corporal\n[3] - IMC por estatura física\n[4] - Personalizado\n[5] - Voltar\n\n\033[1mUsuário: \033[0m")
+        
+        if res == "1":
+            getFaixaEtaria('teste')
+        elif res == "5":
+            userMenu(userId)
 
         input("Pressione qualquer tecla para voltar ao menu...")
         opcaoUser == "0"
@@ -83,7 +88,7 @@ def entrar(user, senha):
         time.sleep(4)
         main(isRepeatLog = True)
     else:
-        print("\033[1mCálculo de IMC - Sucesso no Login\033[0m\n\nLogin feito com sucesso\nRedirecionando para o menu inicial ...")
+        print("\033[1mCálculo de IMC - Sucesso no Login\033[0m\n\nLogin feito com sucesso\nDirecionando para o menu inicial...")
         userId = dados[0]
         time.sleep(2)
         os.system('cls')
