@@ -6,6 +6,8 @@ import getpass
 import database
 # from login import cadastrar
 import platform
+import locale
+locale.setlocale(locale.LC_ALL, 'pt_pt.UTF-8')
 
 # osClient = platform.system()
 # clearCode = ''
@@ -42,9 +44,16 @@ def userMenu(userId, isRepeat = False):
     
     while opcaoUser == "2":
         os.system('cls')
+        print("\033[1mCálculo de IMC - Histórico\033[0m\n")
         dados = historico(userId)
+
         for i in dados:
-            print(dados[0], dados[1])
+            print(f"\033[1m{i[4].strftime('%A').capitalize()}, {i[4].strftime('%d')} de {i[4].strftime('%B')} de {i[4].strftime('%Y')}\033[0m")
+            print(f"\033[1mHorário: \033[0m{i[4].strftime('%H')}:{i[4].strftime('%M')}")
+            print(f"\033[1mPeso: \033[0m{i[1]}")
+            print(f"\033[1mAltura: \033[0m{i[1]}")
+            print(f"\033[1mIMC: \033[0m{i[1]}\n\n")
+
 
         input("Pressione qualquer tecla para voltar ao menu...")
         opcaoUser == "0"
@@ -68,50 +77,52 @@ def entrar(user, senha):
     if type(dados) == type(None):
         print("\033[1mCálculo de IMC - Falha no Login\033[0m\n\nUsuário ou senha inválidos")
         time.sleep(4)
-        main(False, False, True)
+        main(isRepeatLog = True)
     else:
-        print("\033[1mCálculo de IMC - Sucesso no Login\033[0m\n\nLogin feito com sucesso, Redirecionando para o menu inicial ...")
+        print("\033[1mCálculo de IMC - Sucesso no Login\033[0m\n\nLogin feito com sucesso\nRedirecionando para o menu inicial ...")
         userId = dados[0]
         time.sleep(2)
         os.system('cls')
         userMenu(userId)
-        #chamar menu do usuario
 
-
-def main(isRepeat = False, isRepeatCad = False, isRepeatLog = False):
-    if isRepeat:
-        os.system('cls')
+def main(isRepeatCad = False, isRepeatLog = False):
+    os.system('cls')
+    
+    if isRepeatLog:
+        userInput = "1"
+    elif isRepeatCad:
+        userInput = "2"
     else:
+        userInput = input("\033[1mCálculo de IMC\033[0m\n\n[1] - Entrar\n[2] - Cadastrar\n[3] - Visitante\n[4] - Sair\n\n\033[1mUsuário:\033[0m ")
+
+    if userInput == "1":
         os.system('cls')
-        
-        if isRepeatCad:
-            userInput = "2"
-        elif isRepeatLog:
-            userInput = "1"
+        username = input("\033[1mCálculo de IMC - Login\n\nUsername:\033[0m ")
+        senha = getpass.getpass('\033[1mSenha:\033[0m ')
+        entrar(username, senha)
+    elif userInput == "2":
+        os.system('cls')
+        nome = input("\033[1mCálculo de IMC - Cadastro\033[0m\n\nNome completo: ")
+        user = input("Username: ")
+        dataNasc = input("Data de nascimento(AAAA-MM-DD): ")
+        senha = getpass.getpass("Senha:")
+        confSenha = getpass.getpass("Confirme a senha: ")
+        if senha == confSenha:
+            cadastrar(nome, user, senha, dataNasc)
         else:
-            userInput = input("\033[1mCálculo de IMC\033[0m\n\n[1] - Entrar\n[2] - Cadastrar\n[3] - Visitante\n\n\033[1mUsuário:\033[0m ")
+            os.system('cls')
+            print("\033[1mCálculo de IMC\033[0m\n\nAs senhas são diferentes")
+            time.sleep(3)
+            main(isRepeatCad = True)
+    elif userInput == '3':
+        print(imc(userId = None, isLogado = False))
+        input("\nPressione qualquer tecla para continuar...")
+        main()
+    elif userInput == '4':
+        os.system('cls')
+        print('Foi bom o tempo que passamos juntos ♡\n')
+        time.sleep(4)
+        os.system('cls')
+        exit()
 
-        if userInput == "1":
-            os.system('cls')
-            username = input("\033[1mCálculo de IMC - Login\n\nUsername:\033[0m ")
-            senha = getpass.getpass('\033[1mSenha:\033[0m ')
-            entrar(username, senha)
-        elif userInput == "2":
-            os.system('cls')
-            nome = input("\033[1mCálculo de IMC - Cadastro\033[0m\n\nNome completo: ")
-            user = input("Username: ")
-            dataNasc = input("Data de nascimento(AAAA-MM-DD): ")
-            senha = getpass.getpass("Senha:")
-            confSenha = getpass.getpass("Confirme a senha: ")
-            if senha == confSenha:
-                cadastrar(nome, user, senha, dataNasc)
-            else:
-                os.system('cls')
-                print("\033[1mCálculo de IMC\033[0m\n\nAs senhas são diferentes")
-                time.sleep(3)
-                main(False, True)
-    
 main()
-
-
-    

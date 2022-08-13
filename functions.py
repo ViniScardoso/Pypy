@@ -25,4 +25,4 @@ def imc(userId, isLogado = True):
 
 
 def historico(userId):
-    return select(f"SELECT * FROM registro where fkUsuario = '{userId}'", True)
+    return select(f"SELECT * FROM registro WHERE fkUsuario = '{userId}'", True)
