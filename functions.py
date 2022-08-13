@@ -3,14 +3,14 @@ import datetime as dt
 import pytz
 import os
 
-def imc( idUser, isLogado = True):
+def imc(userId, isLogado = True):
     os.system('cls')
     peso = float(input(f"Insira seu peso: "))
     altura = float(input(f"Insira sua altura: "))
     res = round((peso / altura ** 2), 2)
 
     if isLogado:
-        insert(f"INSERT INTO registro VALUES (NULL, {peso}, {altura}, {res}, '{dt.datetime.now(pytz.timezone('America/Sao_Paulo'))}'), {idUser};")
+        insert(f"INSERT INTO registro VALUES (NULL, {peso}, {altura}, {res}, '{dt.datetime.now(pytz.timezone('America/Sao_Paulo'))}', {userId});")
 
     if(res < 18.5):
         return f"\033[1mIMC:\033[0m {res} \n\033[1mESTADO: \033[0m Abaixo do peso normal"
@@ -22,3 +22,7 @@ def imc( idUser, isLogado = True):
         return f"\033[1mIMC:\033[0m {res} \n\033[1mESTADO: \033[0m Obesidade"
     elif(res > 40):
         return f"\033[1mIMC:\033[0m {res} \n\033[1mESTADO: \033[0m Obesidade Morbida"
+
+
+def historico(userId):
+    return select(f"SELECT * FROM registro where fkUsuario = '{userId}'", True)

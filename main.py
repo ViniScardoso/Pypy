@@ -1,7 +1,7 @@
 # python -m pip install nomeDoModulo -> Caso dê problema
 import os
 import time
-from functions import imc
+from functions import historico, imc
 import getpass
 import database
 # from login import cadastrar
@@ -15,28 +15,40 @@ import platform
 # else:
 #     clearCode = 'cls'
 
-def userMenu(isRepeat = False):
+def userMenu(userId, isRepeat = False):
     os.system('cls')
-    
+
     if isRepeat:
        opcaoUser = '1'
     else:
         opcaoUser = input("\033[1mCálculo de IMC - Home\033[0m\n\n[1] - Calcular IMC\n[2] - Histórico\n[3] - Análise de Dados\n\n\033[1mUsuário:\033[0m ")
     
     while opcaoUser == '1':
-        resultado = imc(6)
+        resultado = imc(userId)
         print(resultado)
         input("Pressione qualquer tecla para seguir")
         res = input("[1] - Nova operação\n[2] - Voltar para o menu \n")
         if res == "2":
-            opcaoUser = "2"
-            userMenu()
+            opcaoUser = "0"
+            userMenu(userId)
         elif res == "1":
-            userMenu(True)
+            userMenu(userId, True)
         else:
             print("Opção inválida")
             time.sleep(1)
-            userMenu()    
+            userMenu(userId)
+    
+    while opcaoUser == "2":
+        os.system('cls')
+        dados = historico(userId)
+        for i in dados:
+            print(dados[0], dados[1])
+
+        input("Pressione qualquer tecla para voltar ao menu")
+        opcaoUser == "0"
+        userMenu(userId)
+
+
 
 def cadastrar(nome, user, dataNasc, senha):
     retorno = database.insert(f"INSERT INTO usuario VALUES (NULL, '{nome}', '{user}', '{dataNasc}', '{senha}')")
@@ -52,17 +64,17 @@ def cadastrar(nome, user, dataNasc, senha):
 
 def entrar(user, senha):
     os.system('cls')
-    dados = database.select(f"SELECT username, senha FROM usuario where username = '{user}' and senha = '{senha}'")
+    dados = database.select(f"SELECT idUsuario, username, nome FROM usuario where username = '{user}' and senha = '{senha}'")
     if type(dados) == type(None):
         print("Usuário ou senha inválidos")
-        print(type(dados))
         time.sleep(4)
         main(False, False, True)
     else:
-        print("Login feito com sucesso")
+        print("Login feito com sucesso, Redirecionando para o menu inicial ...")
+        userId = dados[0]
         time.sleep(2)
         os.system('cls')
-        userMenu()
+        userMenu(userId)
         #chamar menu do usuario
 
 
@@ -71,10 +83,6 @@ def main(isRepeat = False, isRepeatCad = False, isRepeatLog = False):
         os.system('cls')
     else:
         os.system('cls')
-        # nome = input("\033[1mCálculo de IMC\n\nNome:\033[0m ")
-        # peso = float(input("\033[1mKG:\033[0m "))
-        # altura = float(input("\033[1mAltura: \033[0m"))
-        # print(f"{imc(nome, peso, altura)}.\n\n")
         
         if isRepeatCad:
             userInput = "2"

@@ -7,7 +7,7 @@ USE pypy;
 CREATE TABLE usuario(
 	idUsuario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(128),
-    username VARCHAR(128),
+    username VARCHAR(128) UNIQUE,
 	senha VARCHAR(45),
     datanasc DATE
 );
@@ -16,14 +16,17 @@ CREATE TABLE registro(
 	idRegistro INT PRIMARY KEY AUTO_INCREMENT,
     peso DECIMAL(6,3),
     altura DECIMAL(3,2),
+    altura DECIMAL(3,2),
     imc DOUBLE,
     dataHoraReg DATETIME,
     fkUsuario int,
     foreign key(fkUsuario) references usuario(idUsuario)
 );
 
-INSERT INTO usuario VALUES (NULL ,'Leo', 'leovasc', 54.0, 421.0, 0.0, '2003-11-02');
 
 SELECT * FROM usuario;
+SELECT * FROM registro;
 
 drop table usuario;
+drop table registro;
+

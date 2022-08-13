@@ -9,6 +9,7 @@ cnx = mysql.connector.connect(user="pypyUser",
 
 def insert(query): 
     try:
+        cnx.reconnect()
         cursor = cnx.cursor()
         cursor.execute(query)
     except mysql.connector.Error as error:
@@ -19,12 +20,15 @@ def insert(query):
             cnx.close()
             return cursor.rowcount
 
-def select(query):
+def select(query, isAllRequested = False):
     try:
+        cnx.reconnect()
         cursor = cnx.cursor()
         cursor.execute(query)
-        dados = cursor.fetchone()
-        print("You're connected to database: ", dados)
+        if isAllRequested:
+            dados = cursor.fetchall()
+        else:
+            dados = cursor.fetchone()
     except mysql.connector.Error as error:
         print('Erro')
         dados = error
