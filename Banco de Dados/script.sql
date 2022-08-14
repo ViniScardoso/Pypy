@@ -22,12 +22,13 @@ CREATE TABLE registro(
     foreign key(fkUsuario) references usuario(idUsuario)
 );
 
-
 SELECT * FROM usuario;
 SELECT * FROM registro;
 
-DROP TABLE usuario;
 DROP TABLE registro;
+DROP TABLE usuario;
+
+DROP DATABASE pypy;
 
 -- Consulta o registro mais recente de cada usuário
 SELECT * FROM registro INNER JOIN (SELECT MAX(dataHoraReg), fkUsuario FROM registro GROUP BY fkUsuario) AS dataSet GROUP BY registro.fkUsuario;
