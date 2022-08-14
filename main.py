@@ -6,7 +6,7 @@ import getpass
 import database
 import platform
 import locale
-from analytics import getFaixaEtaria
+from analytics import getAnalise
 locale.setlocale(locale.LC_ALL, 'pt_pt.UTF-8')
 
 # clearCode = 'clear' if platform.system() == 'Linux' else 'cls'
@@ -54,11 +54,31 @@ def userMenu(userId, isRepeat = False):
 
     while opcaoUser == "3":
         os.system('cls')
-        res = input("\033[1mCálculo de IMC - Análise de Dados\033[0m\n\n[1] - IMC por faixa etária\n[2] - IMC por faixa corporal\n[3] - IMC por estatura física\n[4] - Personalizado\n[5] - Voltar\n\n\033[1mUsuário: \033[0m")
+        res = input("\033[1mCálculo de IMC - Análise de Dados\033[0m\n\n[1] - Média de IMC por faixa etária\n[2] - Média de IMC por faixa corporal\n[3] - Média de IMC por estatura física\n[4] - Personalizado\n[5] - Voltar\n\n\033[1mUsuário: \033[0m")
         
         if res == "1":
-            getFaixaEtaria('teste')
+            os.system('cls')
+            mode = input("\033[1mSelecione o Gráfico desejado \033[0m\n\n[1] - Gráfico de Linhas \n[2] - Gráfico de Barras\n[3] - Voltar\n\n\033[1mUsuário: \033[0m")
+            if mode == "3":
+                userMenu(userId)
+            else:
+                getAnalise(res, mode)
+        elif res == "2":
+            os.system('cls')
+            mode = input("\033[1mSelecione o Gráfico desejado \033[0m\n\n[1] - Gráfico de Linhas \n[2] - Gráfico de Barras\n[3] - Voltar\n\n\033[1mUsuário: \033[0m")
+            if int(mode) >= 3:
+                userMenu(userId)
+            else:
+                getAnalise(res, mode)
+        elif res == "3":
+            os.system('cls')
+            mode = input("\033[1mSelecione o Gráfico desejado \033[0m\n\n[1] - Gráfico de Linhas \n[2] - Gráfico de Barras\n[3] - Voltar\n\n\033[1mUsuário: \033[0m")
+            if int(mode) >= 3:
+                userMenu(userId)
+            else:
+                getAnalise(res, mode)
         elif res == "5":
+            opcaoUser == "5" 
             userMenu(userId)
 
         input("Pressione qualquer tecla para voltar ao menu...")
@@ -85,7 +105,7 @@ def entrar(user, senha):
     dados = database.select(f"SELECT idUsuario, username, nome FROM usuario where username = '{user}' and senha = '{senha}'")
     if type(dados) == type(None):
         print("\033[1mCálculo de IMC - Falha no Login\033[0m\n\nUsuário ou senha inválidos")
-        time.sleep(4)
+        time.sleep(2)
         main(isRepeatLog = True)
     else:
         print("\033[1mCálculo de IMC - Sucesso no Login\033[0m\n\nLogin feito com sucesso\nDirecionando para o menu inicial...")

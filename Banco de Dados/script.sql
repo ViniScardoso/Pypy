@@ -16,7 +16,6 @@ CREATE TABLE registro(
 	idRegistro INT PRIMARY KEY AUTO_INCREMENT,
     peso DECIMAL(6,3),
     altura DECIMAL(3,2),
-    altura DECIMAL(3,2),
     imc DOUBLE,
     dataHoraReg DATETIME,
     fkUsuario int,
@@ -33,5 +32,5 @@ DROP TABLE registro;
 -- Consulta o registro mais recente de cada usuário
 SELECT * FROM registro INNER JOIN (SELECT MAX(dataHoraReg), fkUsuario FROM registro GROUP BY fkUsuario) AS dataSet GROUP BY registro.fkUsuario;
 
-1 - 5 = SELECT AVG(dataset.imc) FROM (SELECT peso, altura, imc, TIMESTAMPDIFF(YEAR,datanasc,MAX(dataHoraReg)) AS idade FROM registro JOIN usuario ON fkUsuario = 
+SELECT AVG(dataset.imc) FROM (SELECT peso, altura, imc, TIMESTAMPDIFF(YEAR,datanasc,MAX(dataHoraReg)) AS idade FROM registro JOIN usuario ON fkUsuario = 
 idUsuario GROUP BY fkUsuario) AS dataset WHERE idade < 5; 
