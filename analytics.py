@@ -1,8 +1,10 @@
 import matplotlib.pyplot as plt
 from database import select
-# import numpy as np
 
 def getAnalise(analise, mode):
+    wm = plt.get_current_fig_manager()
+    wm.window.state('zoomed')
+
     if(analise == "1"): ## Analise de IMC por faixa etária
         x = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70]
         y = []
@@ -16,7 +18,13 @@ def getAnalise(analise, mode):
                 y.append(0)
             else:
                 y.append(valor[0])
- 
+
+        x = ['0 - 4', '5 - 9', '10 - 14', '15 - 19', '20 - 24', '25 - 29', '30 - 34', '35 - 39', '40 - 44', '45 - 49', 
+        '50 - 54', '55 - 59', '60 - 64', '65 - 69', '70 ou mais']
+
+        plt.title("Análise de IMC por faixa etária")
+        plt.xlabel('Idade')
+        plt.ylabel('IMC')
         if(mode == '1'):
             plt.plot(x, y)
         elif(mode == '2'):
@@ -37,6 +45,12 @@ def getAnalise(analise, mode):
             else:
                 y.append(valor[0])
  
+        x = ['0 - 9', '10 - 19', '20 - 29', '30 - 39', '40 - 49', '50 - 59', '60 - 69', '70 - 79', '80 - 89', '90 - 99', 
+            '100 - 109', '110 - 119', '120 ou mais']
+
+        plt.title("Análise de IMC por faixa corporal")
+        plt.xlabel('Peso')
+        plt.ylabel('IMC')
         if(mode == '1'):
             plt.plot(x, y)
         elif(mode == '2'):
@@ -44,7 +58,7 @@ def getAnalise(analise, mode):
         plt.show()
 
     elif(analise == '3'): ##Analise de IMC por altura
-        x = [1.40, 1.50, 1.60, 1.80, 1.90, 2.00, 2.10]
+        x = [1.40, 1.50, 1.60, 1.70, 1.80, 1.90, 2.00, 2.10, 2.20]
         y = []
 
         print("Aguarde um momento enquanto geramos o seu gráfico...\n")
@@ -57,7 +71,11 @@ def getAnalise(analise, mode):
             else:
                 y.append(valor[0])
  
-        
+        x = ['1.40 - 1.49', '1.50 - 1.59', '1.60 - 1.69', '1.70 - 1.79', '1.80 - 1.89', '1.90 - 1.99', '2.00 - 2.09', '2.10 - 2.19', '2.20 ou mais']
+
+        plt.title("Análise de IMC por faixa de estatura")
+        plt.xlabel('Altura')
+        plt.ylabel('IMC')
 
         if(mode == '1'):
             plt.plot(x, y)
@@ -65,4 +83,4 @@ def getAnalise(analise, mode):
             plt.bar(x,y)
         plt.show()
 
-# getAnalise(analise, mode)
+# getAnalise('3', '2')

@@ -22,7 +22,7 @@ def userMenu(userId, isRepeat = False):
     while opcaoUser == '1':
         resultado = imc(userId)
         print(resultado)
-        input("\nPressione qualquer tecla para seguir...")
+        input("\nPressione enter tecla para seguir...")
         os.system('cls')
         res = input("\033[1mCálculo de IMC - Tarefa Finalizada\033[0m\n\n[1] - Calcular IMC novamente\n[2] - Voltar\n\n\033[1mUsuário:\033[0m ")
         
@@ -48,14 +48,14 @@ def userMenu(userId, isRepeat = False):
             print(f"\033[1mAltura: \033[0m{i[2]}m")
             print(f"\033[1mIMC: \033[0m{i[3]}\n")
 
-        input("Pressione qualquer tecla para voltar ao menu...")
+        input("Pressione enter para voltar ao menu...")
         opcaoUser == "0"
         userMenu(userId)
 
     while opcaoUser == "3":
         os.system('cls')
         res = input("\033[1mCálculo de IMC - Análise de Dados\033[0m\n\n[1] - Média de IMC por faixa etária\n[2] - Média de IMC por faixa corporal\n[3] - Média de IMC por estatura física\n[4] - Personalizado\n[5] - Voltar\n\n\033[1mUsuário: \033[0m")
-        
+
         if res == "1":
             os.system('cls')
             mode = input("\033[1mSelecione o Gráfico desejado \033[0m\n\n[1] - Gráfico de Linhas \n[2] - Gráfico de Barras\n[3] - Voltar\n\n\033[1mUsuário: \033[0m")
@@ -81,15 +81,13 @@ def userMenu(userId, isRepeat = False):
             opcaoUser == "5" 
             userMenu(userId)
 
-        input("Pressione qualquer tecla para voltar ao menu...")
-        opcaoUser == "0"
-        userMenu(userId)
+        input("Pressione enter para voltar ao menu...")
 
     while opcaoUser == "4":
         main()
 
-def cadastrar(nome, user, dataNasc, senha):
-    retorno = database.insert(f"INSERT INTO usuario VALUES (NULL, '{nome}', '{user}', '{dataNasc}', '{senha}')")
+def cadastrar(nome, user, senha, dataNasc):
+    retorno = database.insert(f"INSERT INTO usuario VALUES (NULL, '{nome}', '{user}', 'MD5({senha})', '{dataNasc}')")
     if retorno == 1:
         os.system('cls')
         print('\033[1mCálculo de IMC - Cadastro\033[0m\n\nCadastro realizado com sucesso!')
@@ -102,7 +100,7 @@ def cadastrar(nome, user, dataNasc, senha):
 
 def entrar(user, senha):
     os.system('cls')
-    dados = database.select(f"SELECT idUsuario, username, nome FROM usuario where username = '{user}' and senha = '{senha}'")
+    dados = database.select(f"SELECT idUsuario, username, nome FROM usuario where username = '{user}' and senha = 'MD5({senha})'")
     if type(dados) == type(None):
         print("\033[1mCálculo de IMC - Falha no Login\033[0m\n\nUsuário ou senha inválidos")
         time.sleep(2)
@@ -145,7 +143,7 @@ def main(isRepeatCad = False, isRepeatLog = False):
             main(isRepeatCad = True)
     elif userInput == '3':
         print(imc(userId = None, isLogado = False))
-        input("\nPressione qualquer tecla para continuar...")
+        input("\nPressione enter para continuar...")
         main()
     elif userInput == '4':
         os.system('cls')
