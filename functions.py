@@ -5,7 +5,7 @@ import os
 
 def imc(userId, isLogado = True):
     os.system('cls')
-    peso = float(input(f"\033[1mCálculo de IMC - Cálculo de IMC\n\nInsira seu peso:\033[0m "))
+    peso = float(input(f"\033[1mPypy - Cálculo de IMC\n\nInsira seu peso:\033[0m "))
     altura = float(input(f"\033[1mInsira sua altura:\033[0m "))
     res = round((peso / altura ** 2), 2)
 
