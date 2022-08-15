@@ -143,7 +143,8 @@ def main(isRepeatCad = False, isRepeatLog = False):
         os.system('cls')
         nome = input("\033[1mPypy - Cadastro\033[0m\n\nNome completo: ")
         user = input("Username: ")
-        dataNasc = input("Data de nascimento(AAAA-MM-DD): ")
+        dn = str(input("Data de nascimento (DD/MM/AAAA): "))
+        dataNasc = f"{str(dn[6])}{str(dn[7])}{str(dn[8])}{str(dn[9])}-{str(dn[3])}{str(dn[4])}-{str(dn[0])}{str(dn[1])}"
         senha = getpass.getpass("Senha:")
         confSenha = getpass.getpass("Confirme a senha: ")
         if senha == confSenha:
