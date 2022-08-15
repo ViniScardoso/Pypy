@@ -1,3 +1,4 @@
+from turtle import width
 import matplotlib.pyplot as plt
 import os
 from database import select
@@ -122,15 +123,15 @@ def getAnalisePersonalizada(idadeMinima, idadeMaxima, pesoMinimo, pesoMaximo, al
             ax3.set_xlabel('IMC')
             ax3.set_ylabel('Idade')
         elif res == '2':
-            fig, (ax1, ax2, ax3) = plt.subplots(3)
+            fig, (ax1, ax2, ax3) = plt.subplots(3, figsize=(15, 0.3))
             fig.suptitle('Análise de Dados por IMC')
             fig.tight_layout()
 
-            ax1.bar(imcs, pesos, width=0.3)
+            ax1.bar(imcs, pesos, width=0.4)
             ax1.set_xlabel('IMC')
             ax1.set_ylabel('Peso')
 
-            ax2.bar(imcs, alturas)
+            ax2.bar(imcs, alturas, width=0.4)
             ax2.set_xlabel('IMC')
             ax2.set_ylabel('Altura')
 
@@ -153,5 +154,5 @@ def getAnalisePersonalizada(idadeMinima, idadeMaxima, pesoMinimo, pesoMaximo, al
             return "5"
 
 
-# getAnalise('1', '1')
+# getAnalise('1', '2')
 # getAnalisePersonalizada(10, 50, 50, 90, 1.40, 1.90)

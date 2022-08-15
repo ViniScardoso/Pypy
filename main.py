@@ -1,7 +1,7 @@
 # python -m pip install nomeDoModulo -> Caso dê problema
 import os
 import time
-from functions import historico, imc
+from functions import historico, imc, relatorio
 import getpass
 import database
 import platform
@@ -17,7 +17,7 @@ def userMenu(userId, isRepeat = False):
     if isRepeat:
        opcaoUser = '1'
     else:
-        opcaoUser = input("\033[1mPypy - Home\033[0m\n\n[1] - Calcular IMC\n[2] - Histórico\n[3] - Análise de Dados\n[4] - Voltar\n\n\033[1mUsuário:\033[0m ")
+        opcaoUser = input("\033[1mPypy - Home\033[0m\n\n[1] - Calcular IMC\n[2] - Histórico\n[3] - Relatório\n[4] - Análise de Dados\n[5] - Voltar\n\n\033[1mUsuário:\033[0m ")
     
     while opcaoUser == '1':
         resultado = imc(userId)
@@ -53,6 +53,27 @@ def userMenu(userId, isRepeat = False):
         userMenu(userId)
 
     while opcaoUser == "3":
+        os.system('cls')
+        res = input("\033[1mPypy - Relatório\033[0m\n\n[1] - Relatório de idade\n[2] - Relatório de peso \n[3] - Relatório de altura\n[4] - Sair\n\n\033[1mUsuário: \033[0m")
+
+        while res == '1':
+            os.system('cls')
+            a = relatorio(res)
+            break
+        while res == '2':
+            os.system('cls')
+            a = relatorio(res)
+            break
+        while res == '3':
+            os.system('cls')
+            a = relatorio(res)
+            break
+        while res == '4':
+            opcaoUser = '0'
+            userMenu(userId)
+
+            
+    while opcaoUser == "4":
         os.system('cls')
         res = input("\033[1mPypy - Análise de Dados\033[0m\n\n[1] - Média de IMC por faixa etária\n[2] - Média de IMC por faixa corporal\n[3] - Média de IMC por estatura física\n[4] - Personalizado\n[5] - Voltar\n\n\033[1mUsuário: \033[0m")
 
@@ -95,7 +116,7 @@ def userMenu(userId, isRepeat = False):
             opcaoUser == "5"
             userMenu(userId)
 
-    while opcaoUser == "4":
+    while opcaoUser == "5":
         main()
 
 def cadastrar(nome, user, senha, dataNasc):
