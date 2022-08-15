@@ -77,7 +77,7 @@ def userMenu(userId, isRepeat = False):
                 res = '0'
             else:
                 getAnalise(res, mode)
-        if res == "4":
+        while res == "4":
             os.system('cls')
 
             idadeMinima = input("\033[1mPypy - Análise de Dados Personalizado\n\nDigite a idade miníma:\033[0m ")
@@ -90,7 +90,7 @@ def userMenu(userId, isRepeat = False):
             alturaMaxima = input("\033[1mDigite a altura máxima:\033[0m ")
 
             getAnalisePersonalizada(idadeMinima, idadeMaxima, pesoMinimo, pesoMaximo, alturaMinima, alturaMaxima)
-
+            res = getAnalisePersonalizada(idadeMinima, idadeMaxima, pesoMinimo, pesoMaximo, alturaMinima, alturaMaxima)
         if res == "5":
             opcaoUser == "5"
             userMenu(userId)
@@ -99,7 +99,7 @@ def userMenu(userId, isRepeat = False):
         main()
 
 def cadastrar(nome, user, senha, dataNasc):
-    retorno = database.insert(f"INSERT INTO usuario VALUES (NULL, '{nome}', '{user}', 'MD5({senha})', '{dataNasc}')")
+    retorno = database.insert(f"INSERT INTO usuario VALUES (NULL, '{nome}', '{user}', MD5('{senha}'), '{dataNasc}')")
     if retorno == 1:
         os.system('cls')
         print('\033[1mPypy - Cadastro\033[0m\n\nCadastro realizado com sucesso!')
@@ -112,7 +112,7 @@ def cadastrar(nome, user, senha, dataNasc):
 
 def entrar(user, senha):
     os.system('cls')
-    dados = database.select(f"SELECT idUsuario, username, nome FROM usuario where username = '{user}' and senha = 'MD5({senha})'")
+    dados = database.select(f"SELECT idUsuario, username, nome FROM usuario where username = '{user}' and senha = MD5('{senha}')")
     if type(dados) == type(None):
         print("\033[1mPypy - Falha no Login\033[0m\n\nUsuário ou senha inválidos")
         time.sleep(2)

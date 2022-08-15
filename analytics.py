@@ -27,7 +27,7 @@ def getAnalise(analise, mode):
         elif(mode == '2'):
             plt.bar(x,y)
         wm = plt.get_current_fig_manager()
-        wm.window.state('zoomed')
+        # wm.window.state('zoomed')
         plt.show()
     
     elif analise == '2': ##Analise de IMC por peso
@@ -54,7 +54,6 @@ def getAnalise(analise, mode):
         elif(mode == '2'):
             plt.bar(x,y)
         wm = plt.get_current_fig_manager()
-        wm.window.state('zoomed')
         plt.show()
 
     elif analise == '3': ##Analise de IMC por altura
@@ -81,7 +80,6 @@ def getAnalise(analise, mode):
         elif(mode == '2'):
             plt.bar(x,y)
         wm = plt.get_current_fig_manager()
-        wm.window.state('zoomed')
         plt.show()
 
 
@@ -106,9 +104,6 @@ def getAnalisePersonalizada(idadeMinima, idadeMaxima, pesoMinimo, pesoMaximo, al
             imcs.append(i[2])
             idades.append(i[3])
 
-        plt.title("Análise de IMC")
-        plt.xlabel('Altura')
-        plt.ylabel('IMC')
 
         if res == '1':
             fig, (ax1, ax2, ax3) = plt.subplots(3)
@@ -148,10 +143,15 @@ def getAnalisePersonalizada(idadeMinima, idadeMaxima, pesoMinimo, pesoMaximo, al
         plt.show()
 
         os.system('cls')
-        resUsuario = input("\033[1mPypy - Análise de Dados\033[0m\n\n[1] - Escolher outro gráfico\n[2] - Alterar parâmetros de pesquisa\n\n\033[1mUsuário:\033[0m ")
+        resUsuario = input("\033[1mPypy - Análise de Dados\033[0m\n\n[1] - Escolher outro gráfico\n[2] - Alterar parâmetros de pesquisa\n[3] - Voltar\n\n\033[1mUsuário:\033[0m") 
 
-        if resUsuario == '2':
+        if resUsuario == '1':
+            getAnalisePersonalizada(idadeMinima, idadeMaxima, pesoMinimo, pesoMaximo, alturaMinima, alturaMaxima)
+        elif resUsuario == '2':
             repeat = '0'
+        else:
+            return "5"
+
 
 # getAnalise('1', '1')
 # getAnalisePersonalizada(10, 50, 50, 90, 1.40, 1.90)
