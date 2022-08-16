@@ -1,6 +1,8 @@
 # python -m pip install nomeDoModulo -> Caso dê problema
+from operator import le
 import os
 import time
+from tokenize import Number
 from functions import historico, imc, relatorio
 import getpass
 import database
@@ -77,10 +79,21 @@ def userMenu(userId, isRepeat = False):
         os.system('cls')
         res = input("\033[1mPypy - Análise de Dados\033[0m\n\n[1] - Média de IMC por faixa etária\n[2] - Média de IMC por faixa corporal\n[3] - Média de IMC por estatura física\n[4] - Personalizado\n[5] - Voltar\n\n\033[1mUsuário: \033[0m")
 
+        if res != "1" and res != "2" and res != "3" and res != "4" and res != "5":
+            userMenu(userId)
+        elif len(res) == 0:
+            userMenu(userId)
+
         while res == "1":
             os.system('cls')
             mode = input("\033[1mPypy - Selecione o Gráfico desejado \033[0m\n\n[1] - Gráfico de Linhas \n[2] - Gráfico de Barras\n[3] - Voltar\n\n\033[1mUsuário: \033[0m")
-            if int(mode) >= 3:
+            if mode != "1" and mode != "2" and mode != "3":
+                print("Entrada de dados inválida")
+                time.sleep(1)
+                res = '0'
+            elif len(mode) == 0:
+                print("Entrada de dados inválida")
+                time.sleep(1)
                 res = '0'
             else:
                 getAnalise(res, mode)
@@ -118,6 +131,11 @@ def userMenu(userId, isRepeat = False):
 
     while opcaoUser == "5":
         main()
+
+    if (opcaoUser != "1" and opcaoUser and "2" and opcaoUser != "3" and opcaoUser != "4" and opcaoUser != "5") or (len(opcaoUser) == 0):
+        print("Entrada de dados inválida")
+        time.sleep(1)
+        userMenu(userId)
 
 def cadastrar(nome, user, senha, dataNasc):
     retorno = database.insert(f"INSERT INTO usuario VALUES (NULL, '{nome}', '{user}', MD5('{senha}'), '{dataNasc}')")
@@ -165,9 +183,28 @@ def main(isRepeatCad = False, isRepeatLog = False):
         nome = input("\033[1mPypy - Cadastro\033[0m\n\nNome completo: ")
         user = input("Username: ")
         dn = str(input("Data de nascimento (DD/MM/AAAA): "))
-        dataNasc = f"{str(dn[6])}{str(dn[7])}{str(dn[8])}{str(dn[9])}-{str(dn[3])}{str(dn[4])}-{str(dn[0])}{str(dn[1])}"
         senha = getpass.getpass("Senha:")
         confSenha = getpass.getpass("Confirme a senha: ")
+
+        if len(nome) == 0:
+            print("Entrada de dados inválida")
+            time.sleep(1)
+            main()
+        elif len(user) == 0:
+            print("Entrada de dados inválida")
+            time.sleep(1)
+            main()
+        elif len(dn) == 0:
+            print("Entrada de dados inválida")
+            time.sleep(1)
+            main()
+        elif len(senha) == 0:
+            print("Entrada de dados inválida")
+            time.sleep(1)
+            main()
+
+
+        dataNasc = f"{str(dn[6])}{str(dn[7])}{str(dn[8])}{str(dn[9])}-{str(dn[3])}{str(dn[4])}-{str(dn[0])}{str(dn[1])}"
         if senha == confSenha:
             cadastrar(nome, user, senha, dataNasc)
         else:
@@ -185,5 +222,9 @@ def main(isRepeatCad = False, isRepeatLog = False):
         time.sleep(7)
         os.system('cls')
         exit()
+    else:
+        print("Entrada de dados inválida")
+        time.sleep(1)
+        main()
 
 main()

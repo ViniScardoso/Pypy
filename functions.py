@@ -2,12 +2,21 @@ from database import select, insert
 import datetime as dt
 import pytz
 import os
+import time
 
 def imc(userId, isLogado = True):
     os.system('cls')
-    peso = float(input(f"\033[1mPypy - Cálculo de IMC\n\nInsira seu peso:\033[0m "))
-    altura = float(input(f"\033[1mInsira sua altura:\033[0m "))
-    res = round((peso / altura ** 2), 2)
+    peso = input(f"\033[1mPypy - Cálculo de IMC\n\nInsira seu peso:\033[0m ")
+    altura = input(f"\033[1mInsira sua altura:\033[0m ")
+
+    if len(peso) > 3 or len(altura) > 4:
+        print("Entrada de dados inválida.")
+        time.sleep(1)
+        imc(userId)
+    else:
+        peso = float(peso)
+        altura = float(altura)
+        res = round((peso / altura ** 2), 2)
 
     if isLogado:
         insert(f"INSERT INTO registro VALUES (NULL, {peso}, {altura}, {res}, '{dt.datetime.now(pytz.timezone('America/Sao_Paulo'))}', {userId});")
@@ -148,5 +157,3 @@ def relatorio(mode):
             cont+=1
             
         input("Aperte enter para continuar...")
-
-relatorio('3')
