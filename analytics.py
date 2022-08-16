@@ -1,4 +1,4 @@
-from turtle import width
+# from turtle import width
 import matplotlib.pyplot as plt
 import os
 from database import select
@@ -144,7 +144,7 @@ def getAnalisePersonalizada(idadeMinima, idadeMaxima, pesoMinimo, pesoMaximo, al
         plt.show()
 
         os.system('cls')
-        resUsuario = input("\033[1mPypy - Análise de Dados\033[0m\n\n[1] - Escolher outro gráfico\n[2] - Alterar parâmetros de pesquisa\n[3] - Voltar\n\n\033[1mUsuário:\033[0m") 
+        resUsuario = input("\033[1mPypy - Análise de Dados\033[0m\n\n[1] - Escolher outro gráfico\n[2] - Alterar parâmetros de pesquisa\n[3] - Voltar\n\n\033[1mUsuário:\033[0m ") 
 
         if resUsuario == '1':
             getAnalisePersonalizada(idadeMinima, idadeMaxima, pesoMinimo, pesoMaximo, alturaMinima, alturaMaxima)

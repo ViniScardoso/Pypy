@@ -2,7 +2,6 @@
 from operator import le
 import os
 import time
-from tokenize import Number
 from functions import historico, imc, relatorio
 import getpass
 import database
@@ -73,8 +72,6 @@ def userMenu(userId, isRepeat = False):
         while res == '4':
             opcaoUser = '0'
             userMenu(userId)
-
-            
     while opcaoUser == "4":
         os.system('cls')
         res = input("\033[1mPypy - Análise de Dados\033[0m\n\n[1] - Média de IMC por faixa etária\n[2] - Média de IMC por faixa corporal\n[3] - Média de IMC por estatura física\n[4] - Personalizado\n[5] - Voltar\n\n\033[1mUsuário: \033[0m")
@@ -87,16 +84,11 @@ def userMenu(userId, isRepeat = False):
         while res == "1":
             os.system('cls')
             mode = input("\033[1mPypy - Selecione o Gráfico desejado \033[0m\n\n[1] - Gráfico de Linhas \n[2] - Gráfico de Barras\n[3] - Voltar\n\n\033[1mUsuário: \033[0m")
-            if mode != "1" and mode != "2" and mode != "3":
-                print("Entrada de dados inválida")
-                time.sleep(1)
-                res = '0'
-            elif len(mode) == 0:
-                print("Entrada de dados inválida")
-                time.sleep(1)
+            if int(mode) >= 3:
                 res = '0'
             else:
                 getAnalise(res, mode)
+
         while res == "2":
             os.system('cls')
             mode = input("\033[1mPypy - Selecione o Gráfico desejado \033[0m\n\n[1] - Gráfico de Linhas \n[2] - Gráfico de Barras\n[3] - Voltar\n\n\033[1mUsuário: \033[0m")

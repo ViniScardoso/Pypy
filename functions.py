@@ -1,3 +1,4 @@
+from itertools import count
 from database import select, insert
 import datetime as dt
 import pytz
@@ -40,13 +41,13 @@ def relatorio(mode):
     if mode == '1':
         x = [1, 10, 20, 30, 40, 50, 60, 70]
         y = ['0 - 9', '10 - 19', '20 - 29', '30 - 39', '40 - 49', '50 - 59', '60 - 69', '70 ou mais']
-        medias = []
         media = total = cont = abaixoPeso = pesoIdeal = sobrepeso = obesidade = morbida =  0
 
         os.system('cls')
         print("\033[1mPypy - Relatório por Faixa Etária\033[0m\n")
         for i in x:
-            valor = (select(f"""SELECT * FROM (SELECT imc, TIMESTAMPDIFF(YEAR,datanasc,MAX(dataHoraReg)) AS idade FROM registro JOIN usuario ON fkUsuario = idUsuario GROUP BY fkUsuario) AS dataset WHERE idade >= {i} AND idade < {i+9};""", True))
+            valor = (select(f"""SELECT * FROM (SELECT imc, TIMESTAMPDIFF(YEAR,datanasc,MAX(dataHoraReg)) AS idade FROM registro JOIN usuario ON fkUsuario = idUsuario GROUP BY fkUsuario) AS dataset WHERE idade >= {i} AND idade < {i+10};""", True))
+            print("Idade: "+ str(i) + " até " + str(i+9) +" anos: " + str(len(valor)))
             totalReg = select("SELECT COUNT(idRegistro) FROM registro")
             for j in valor:
                 total += j[0]
@@ -60,19 +61,17 @@ def relatorio(mode):
                     obesidade+=1
                 elif(j[0] > 40):
                     morbida+=1
-            
             media = total / len(valor)
-            medias.append(media)
+           
 
             print(f"--------------------------------------------\n\033[1m{y[cont]} ANOS\nQuantidade:\033[0m {round(len(valor) / totalReg[0] * 100, 0)}% ({len(valor)} registros)")
-            print(f"""\033[1mIMC Médio:\033[0m {round(media, 1)}\n\033[1mAbaixo do Peso:\033[0m {round(len(valor) / abaixoPeso * 100)}% ({abaixoPeso} registros) 
-\033[1mPeso Ideal: \033[0m{round(len(valor) / pesoIdeal * 100)}% ({pesoIdeal} registros) 
-\033[1mSobrepeso: \033[0m{round(len(valor) / sobrepeso * 100)}% ({sobrepeso} registros) 
-\033[1mObesidade: \033[0m{round(len(valor) / obesidade * 100)}% ({obesidade} registros) 
-\033[1mObesidade morbida: \033[0m{round(len(valor) / morbida * 100)}% ({morbida}) registros\n-------------------------------------------\n""")
-
-            total = media = 0
+            print(f"""\033[1mIMC Médio:\033[0m {round(media, 1)}\n\033[1mAbaixo do Peso:\033[0m {round(abaixoPeso/len(valor) * 100, 0)}% ({abaixoPeso} registros) 
+\033[1mPeso Ideal: \033[0m{round(pesoIdeal / len(valor) * 100, 0)}% ({pesoIdeal} registros) 
+\033[1mSobrepeso: \033[0m{round(sobrepeso / len(valor) * 100, 0)}% ({sobrepeso} registros) 
+\033[1mObesidade: \033[0m{round(obesidade / len(valor) * 100, 0)}% ({obesidade} registros) 
+\033[1mObesidade morbida: \033[0m{round(morbida / len(valor) * 100, 0)}% ({morbida} registros)\n-------------------------------------------\n""")
             cont+=1
+            abaixoPeso = pesoIdeal = sobrepeso = obesidade = morbida = media = total = 0        
             
         input("Aperte enter para continuar...")
         return 0
@@ -82,7 +81,6 @@ def relatorio(mode):
         x = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110]
         y = ['0 - 9', '10 - 19', '20 - 29', '30 - 39', '40 - 49',
         '50 - 59', '60 - 69', '70 - 79', '80 - 89', '90 - 99', '100 - 109', '110 ou mais']
-        medias = []
         media = total = cont = abaixoPeso = pesoIdeal = sobrepeso = obesidade = morbida =  0
 
         os.system('cls')
@@ -104,16 +102,15 @@ def relatorio(mode):
                     morbida+=1
             
             media = total / len(valor)
-            medias.append(media)
 
             print(f"--------------------------------------------\n\033[1m{y[cont]} KG\nQuantidade:\033[0m {round(len(valor) / totalReg[0] * 100, 0)}% ({len(valor)} registros)")
-            print(f"""\033[1mIMC Médio:\033[0m {round(media, 1)}\n\033[1mAbaixo do Peso:\033[0m {round(len(valor) / abaixoPeso * 100)}% ({abaixoPeso} registros) 
-\033[1mPeso Ideal: \033[0m{round(len(valor) / pesoIdeal * 100)}% ({pesoIdeal} registros) 
-\033[1mSobrepeso: \033[0m{round(len(valor) / sobrepeso * 100)}% ({sobrepeso} registros) 
-\033[1mObesidade: \033[0m{round(len(valor) / obesidade * 100)}% ({obesidade} registros) 
-\033[1mObesidade morbida: \033[0m{round(len(valor) / morbida * 100)}% ({morbida}) registros\n-------------------------------------------\n""")
+            print(f"""\033[1mIMC Médio:\033[0m {round(media, 1)}\n\033[1mAbaixo do Peso:\033[0m {round(abaixoPeso / len(valor) * 100, 0)}% ({abaixoPeso} registros) 
+\033[1mPeso Ideal: \033[0m{round(pesoIdeal / len(valor) * 100, 0)}% ({pesoIdeal} registros) 
+\033[1mSobrepeso: \033[0m{round(sobrepeso / len(valor) * 100, 0)}% ({sobrepeso} registros) 
+\033[1mObesidade: \033[0m{round(obesidade / len(valor) * 100, 0)}% ({obesidade} registros) 
+\033[1mObesidade morbida: \033[0m{round(morbida / len(valor) * 100, 0)}% ({morbida} registros)\n-------------------------------------------\n""")
 
-            total = media = 0
+            abaixoPeso = pesoIdeal = sobrepeso = obesidade = morbida = media = total = 0        
             cont+=1
             
         input("Aperte enter para continuar...")
@@ -122,7 +119,6 @@ def relatorio(mode):
         x = [0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.2]
         y = ['20cm - 39cm', '40cm - 59cm', '60cm - 79cm', '80cm - 99cm', '1m - 1.19m',
         '1.20m - 1.39m', '1.40m - 1.59m', '1.60m - 1.79m', '1.80m - 1.99m', '2m - 2.19m', '2.20m ou mais']
-        medias = []
         media = total = cont = abaixoPeso = pesoIdeal = sobrepeso = obesidade = morbida =  0
 
         os.system('cls')
@@ -144,16 +140,17 @@ def relatorio(mode):
                     morbida+=1
             
             media = total / len(valor)
-            medias.append(media)
 
             print(f"--------------------------------------------\n\033[1m{y[cont]} metros\nQuantidade:\033[0m {round(len(valor) / totalReg[0] * 100, 0)}% ({len(valor)} registros)")
-            print(f"""\033[1mIMC Médio:\033[0m {round(media, 1)}\n\033[1mAbaixo do Peso:\033[0m {round(len(valor) / abaixoPeso * 100)}% ({abaixoPeso} registros) 
-\033[1mPeso Ideal: \033[0m{round(len(valor) / pesoIdeal * 100)}% ({pesoIdeal} registros) 
-\033[1mSobrepeso: \033[0m{round(len(valor) / sobrepeso * 100)}% ({sobrepeso} registros) 
-\033[1mObesidade: \033[0m{round(len(valor) / obesidade * 100)}% ({obesidade} registros) 
-\033[1mObesidade morbida: \033[0m{round(len(valor) / morbida * 100)}% ({morbida}) registros\n-------------------------------------------\n""")
+            print(f"""\033[1mIMC Médio:\033[0m {round(media, 1)}\n\033[1mAbaixo do Peso:\033[0m {round(abaixoPeso / len(valor) * 100, 0)}% ({abaixoPeso} registros) 
+\033[1mPeso Ideal: \033[0m{round(pesoIdeal / len(valor) * 100, 0)}% ({pesoIdeal} registros) 
+\033[1mSobrepeso: \033[0m{round(sobrepeso / len(valor) * 100, 0)}% ({sobrepeso} registros) 
+\033[1mObesidade: \033[0m{round(obesidade / len(valor) * 100, 0)}% ({obesidade} registros) 
+\033[1mObesidade morbida: \033[0m{round(morbida / len(valor) * 100, 0)}% ({morbida} registros)\n-------------------------------------------\n""")
 
-            total = media = 0
+            abaixoPeso = pesoIdeal = sobrepeso = obesidade = morbida = media = total = 0        
             cont+=1
             
         input("Aperte enter para continuar...")
+
+relatorio('3')

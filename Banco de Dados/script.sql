@@ -38,4 +38,6 @@ idUsuario GROUP BY fkUsuario) AS dataset WHERE idade > 5;
 SELECT AVG(dataset.imc) FROM (SELECT peso, altura, imc, TIMESTAMPDIFF(YEAR,datanasc,MAX(dataHoraReg)) AS idade 
 FROM registro JOIN usuario ON fkUsuario = idUsuario GROUP BY fkUsuario) AS dataset WHERE altura >= 1.6 AND altura < 1.7;
 
+SELECT * FROM (SELECT imc, TIMESTAMPDIFF(YEAR,datanasc,MAX(dataHoraReg)) AS idade FROM registro JOIN usuario ON fkUsuario = idUsuario GROUP BY fkUsuario) AS dataset WHERE idade >= 10 AND idade < 19;
+
 INSERT INTO usuario VALUES (NULL, 'vinicius', 'vini', MD5('123'), '2004-11-07');
